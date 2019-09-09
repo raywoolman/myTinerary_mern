@@ -1,6 +1,6 @@
-import React from './node_modules/react'
+import React from 'rgit eact'
 import rightArrow from '../images/circled-right-2.png'
-
+import '../style/home.css'
 const Home = () => {
     return (
         <div className="container">
