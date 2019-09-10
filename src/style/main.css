@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+/* font-family: 'Rubik', sans-serif; */
+
+/* .item {
+    grid-area: <name> | <row-start> / <column-start> / <row-end> / <column-end>;
+} */
+
+.App {
+    display: grid;
+    grid-template-columns: 5% auto 5%;
+    grid-template-rows: auto 10%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Rubik', sans-serif;
+}
+
+.viewport {
+    grid-column: 1/4;
+    grid-row: 1/3;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.mainContainer {
+    grid-column: 2/2;
+    grid-row: 1/2
+}
+
+.bottomBanner {
+    grid-column: 2/2;
+    grid-row: 2/2;
+}
+
+.mediumIcon {
+    width: 25%;
+}
