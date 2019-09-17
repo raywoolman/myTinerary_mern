@@ -1,5 +1,7 @@
+//mongo: mongodb+srv://mytinerary:t2QDjllSJTMKyvRW@cluster0-8lgpw.mongodb.net/test?retryWrites=true&w=majority
+
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import './style/main.css';
 
 //routes:
