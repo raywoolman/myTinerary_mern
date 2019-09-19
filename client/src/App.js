@@ -12,6 +12,12 @@ import CreateAccount from './components/CreateAccount'
 import Login from './components/Login'
 
 class App extends Component {
+  state = {
+    response: '',
+    post: '',
+    responseToPost: '',
+  };
+
   render() {
     return (
       <BrowserRouter>
