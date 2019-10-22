@@ -1,6 +1,5 @@
-const FETCH_CITIES = "FETCH_CITIES";
-const FETCH_CITIES_SUCCESS = "FETCH_CITIES_SUCCESS"
-const FETCH_CITIES_FAIL = "FETCH_CITIES_FAIL"
+import { FETCH_CITIES, FETCH_CITIES_SUCCESS, FETCH_CITIES_FAIL } from './actionTypes'
+
 
 export function fetchingCities() {
   return {type: FETCH_CITIES}
