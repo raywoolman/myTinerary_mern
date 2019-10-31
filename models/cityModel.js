@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const citySchema = new mongoose.Schema({
+const City = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -15,4 +15,4 @@ const citySchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('city', citySchema)
+module.exports = mongoose.model("City",City)

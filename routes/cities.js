@@ -1,15 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const cityModel = require('../models/cityModel')
+const City = require('../models/cityModel')
 
-router.get('/all', 
-(req, res) => {
-  cityModel
-    .find({})
-    .then(files => {
-      res.send(files)
+router.get('/all',async (req, res) => {
+  try {
+    await City.find({}, (err, cities) =>{
+      if (err) return res.status(500).send({error: "Internal Server Error"})
+      return res.status(200).send(cities)
     })
-    .catch(err => console.log(err))
+    
+  } catch(err) {
+    console.error(err)
+  }
 });
 
 module.exports = router
