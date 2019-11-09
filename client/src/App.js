@@ -20,7 +20,6 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App" >
-          {/* insert static content here */}
           <div className="viewport">
             <Route exact path='/' component={Home} />
             <Route path='/cities' component={Cities} />

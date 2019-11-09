@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes'
+import * as actionType from '../actions/actionTypes'
 
 const initState = {
   cities: [],
@@ -8,7 +8,7 @@ const initState = {
 
 const citiesReducer = (state = initState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_CITIES_SUCCESS:
+    case actionType.FETCH_CITIES_SUCCESS:
       return {
         ...state,
         cities: action.cities,
@@ -16,13 +16,13 @@ const citiesReducer = (state = initState, action) => {
         isLoading: false
       };
 
-    case actionTypes.FETCH_CITIES_FAIL:
+    case actionType.FETCH_CITIES_FAIL:
       return {
         ...state,
         error: action.error,
         isLoading: false
       };
-      case actionTypes.FETCH_CITIES:
+      case actionType.FETCH_CITIES:
           return {
               ...state,
               error: {},
