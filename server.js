@@ -6,8 +6,8 @@ const cors = require("cors");
 const db = require('./keys').mongoURI;
 const mongoose = require("mongoose");
 
-
 const cities = require('./routes/cities');
+const itineraries = require('./routes/itineraries');
 
 app.use(bodyParser.json());
 
@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.use('/cities', cities)
+app.use('/itineraries', itineraries)
 
 app.listen(port, () => {
   console.log("Server is running on port " + port);
