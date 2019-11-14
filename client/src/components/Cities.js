@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/cityActions';
+import '../style/cities.css'
+
+import {
+  Card, CardImg, CardSubtitle
+} from 'reactstrap';
 
 class Cities extends Component {
 
@@ -20,13 +25,13 @@ class Cities extends Component {
   render() {
     console.log(this.props.cities)
     return (
-      <div>
-        {this
-            .props
-            .cities
-            .map(city =><div key={ city._id }>{ city.name }</div>)}
-      </div>
+      this.props.cities.map(city=> (
+      <Card key={ city._id } body inverse>
+        <CardSubtitle style={ {color: 'black'}}>{ city.name }</CardSubtitle>
+        <CardImg className="card-img" src={ city.image }></CardImg>
+      </Card>
     )
+    ))
   }
 }
 
