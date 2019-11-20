@@ -23,7 +23,6 @@ class Cities extends Component {
   }
 
   render() {
-    console.log(this.props.cities)
     return (
       this.props.cities.map(city=> (
       <Card key={ city._id } body inverse>

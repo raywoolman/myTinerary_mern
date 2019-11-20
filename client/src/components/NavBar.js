@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import '../style/main.css'
 
-const NavBar = (props) => {
+
+//style
+const navStyle = {
+    'zIndex': '99999'
+};
+
+const NavBar = () => {
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
 
     return (
-            <Navbar fixed color="faded" light className="header-row">
+            <Navbar style={ navStyle } dark={false} color="faded" light className="header-row" >
                 <NavbarBrand href="/" className="mr-auto">myTinerary</NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!collapsed} navbar>
                 <Nav navbar>
                     <NavItem>
-                    <NavLink href="/components/">Components</NavLink>
+                    <NavLink href="">Components</NavLink>
                     </NavItem>
                     <NavItem>
                     <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>

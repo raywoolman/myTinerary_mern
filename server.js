@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 
 const cities = require('./routes/cities');
 const itineraries = require('./routes/itineraries');
+const users = require('./routes/users');
 
 app.use(bodyParser.json());
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use('/cities', cities)
 app.use('/itineraries', itineraries)
+app.use('users', users)
 
 app.listen(port, () => {
   console.log("Server is running on port " + port);
