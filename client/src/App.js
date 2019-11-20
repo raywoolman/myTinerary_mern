@@ -6,9 +6,9 @@ import './style/main.css';
 import Home from './components/Home'
 import Cities from './components/Cities'
 import Itineraries from './components/Itineraries'
-import CreateAccount from './components/CreateAccount'
+import CreateAccount from './components/createAccount/CreateAccount'
 import Login from './components/Login'
-import NavBar from './components/NavBar'
+import NavBar from './components/layout/NavBar'
 
 class App extends Component {
   render() {

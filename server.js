@@ -18,7 +18,7 @@ app.use(cors());
 
 app.use('/cities', cities)
 app.use('/itineraries', itineraries)
-app.use('users', users)
+app.use('/user', users)
 
 app.listen(port, () => {
   console.log("Server is running on port " + port);

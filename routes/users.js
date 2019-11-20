@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userModel = require('../models/userModel')
 
-router.get('/all', (req, res) => {
+router.get('/', (req, res) => {
   userModel
     .find({})
     .then(files => {
@@ -11,29 +11,21 @@ router.get('/all', (req, res) => {
     .catch(err => console.log(err));
 })
 
-// router.get('/:id', (req, res) => {
-//   let cityId = req.params.id;
-// cityModel
-//   .findById(cityId)
-//   .then(city => {
-//     res.send(city)
-//   })
-//   .catch(err => console.log(err));
-// });
+router.post('/', (req, res) => {
+    const newUser = new userModel({
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password
+    })
+    newUser
+    .save()
+    .then(user => {
+        res.send(user)
+    })
+    .catch(err => {
+        res.status(500)
+        .send("Server error: ", err)
+    })
+});
 
-// router.post('/', (req, res) => {
-//   const newCity = new cityModel({
-//     })
-//   newCity
-//     .save()
-//     .then(city => {
-//       res.send(city)
-//     })
-//     .catch(err => {
-//       res
-//         .status(500)
-//         .send("Server error: ", err)
-//     })
-// });
-
-module.exports = router
+module.exports = router;
