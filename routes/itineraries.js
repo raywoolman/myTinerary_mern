@@ -11,4 +11,13 @@ router.get('/all', (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.get('/:cityId', (req, res) => {
+  itineraryModel
+  .find({parentCityID: req.params.cityId})
+  .then(files => {
+    res.send(files)
+  })
+  .catch(err => console.log(err))
+})
+
 module.exports = router

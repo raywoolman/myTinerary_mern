@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err));
 })
 
-router.post('/', (req, res) => {
+router.post('/add', (req, res) => {
     const newUser = new userModel({
         email: req.body.email,
         name: req.body.name,

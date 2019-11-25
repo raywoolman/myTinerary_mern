@@ -20,7 +20,8 @@ class CreateAccountForm extends Component {
     this.state = {
       email: '',
       name: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   }
 
