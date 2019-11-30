@@ -12,6 +12,7 @@ router.get('/all', (req, res) => {
 });
 
 router.get('/:cityId', (req, res) => {
+  console.log(req)
   itineraryModel
   .find({parentCityID: req.params.cityId})
   .then(files => {

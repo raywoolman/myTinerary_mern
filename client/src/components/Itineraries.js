@@ -1,8 +1,22 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import * as actions from '../store/actions/itineraryActions';
+import * as actions from '../store/actions/itinerariesActions';
 
 class Itineraries extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: ''
+    }
+    this.cityId = this.props.match.params.id
+  }
+
+  componentDidMount() {
+    console.log(this.cityId)
+    this.props.fetchItineraries(this.cityId)
+  }
+
   render() {
     return (
       <div>Itineraries</div>
@@ -11,13 +25,14 @@ class Itineraries extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {itineraries: state.itineraries.itineraries, isLoading: state.isLoading}
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchItineraries: () => dispatch(actions.fetchItineraries())
-    }
-} 
+  return {
+    fetchItineraries: (cityId) => dispatch(actions.fetchItineraries(cityId))
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Itineraries)

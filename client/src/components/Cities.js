@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/cityActions';
 import '../style/cities.css'
@@ -28,6 +29,7 @@ class Cities extends Component {
       <Card key={ city._id } body inverse>
         <CardSubtitle style={ {color: 'black'}}>{ city.name }</CardSubtitle>
         <CardImg className="card-img" src={ city.image }></CardImg>
+        <Link to={`/itineraries/${city._id}`}>Itineraries</Link>
       </Card>
     )
     ))
