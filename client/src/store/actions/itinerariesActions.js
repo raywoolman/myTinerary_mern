@@ -13,10 +13,9 @@ export function fetchItinerariesFail(error) {
 }
 
 export function fetchItineraries(cityId) {
-  console.log(cityId)
   return dispatch => {
     dispatch(fetchingItineraries())
-    fetch("itineraries/"+cityId)
+    fetch(cityId)
       .then(r => r.json())
       .then(json => {
         dispatch(fetchItinerariesSuccess(json))

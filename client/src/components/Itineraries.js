@@ -13,7 +13,6 @@ class Itineraries extends Component {
   }
 
   componentDidMount() {
-    console.log(this.cityId)
     this.props.fetchItineraries(this.cityId)
   }
 
@@ -25,7 +24,6 @@ class Itineraries extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {itineraries: state.itineraries.itineraries, isLoading: state.isLoading}
 }
 

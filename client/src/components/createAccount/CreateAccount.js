@@ -12,7 +12,7 @@ class CreateAccount extends Component {
       <div className='viewport'>
         <p>Join the community</p>
         <br/>
-          <NewAccountForm></NewAccountForm>
+          <NewAccountForm />
       </div>
     )
   }

@@ -11,10 +11,9 @@ router.get('/all', (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.get('/:cityId', (req, res) => {
-  console.log(req)
+router.get('/:id', (req, res) => {
   itineraryModel
-  .find({parentCityID: req.params.cityId})
+  .find({parentCityID: req.params.id})
   .then(files => {
     res.send(files)
   })
