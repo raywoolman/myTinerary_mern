@@ -9,7 +9,7 @@ class Itineraries extends Component {
     this.state = {
       search: ''
     }
-    this.cityId = this.props.match.params.id
+    this.cityId = this.props.match.params.cityId
   }
 
   componentDidMount() {

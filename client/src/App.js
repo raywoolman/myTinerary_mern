@@ -22,7 +22,7 @@ class App extends Component {
 
               <Route exact path='/' component={Home}/>
               <Route path='/cities' className="viewport" component={Cities}/>
-              <Route path='/itineraries/:id' component={Itineraries}/>
+              <Route path='/itineraries/:cityId' component={Itineraries}/>
               <Route path='/login' component={Login}/>
               <Route path='/createaccount' component={CreateAccount}/>
             </div>
