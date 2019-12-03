@@ -18,37 +18,49 @@ class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: {
         email: '',
         name: '',
         password: '',
         confirmPassword: ''
-      }
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    //dispatch post user
+  }
+
+  handleChange(e) {
+    console.log(this.state.name)
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {
     return (
       <div>
-        <Form style={formStyle} onSubmit={this.postUser}>
+        <Form style={formStyle} onSubmit={this.handleSubmit}>
           <div>
 
             <FormGroup>
               <Label for="name">Name</Label>
-              <Input type="name" name="name" id="name"/>
+              <Input type="text" name="name" id="name" onChange={this.handleChange}/>
             </FormGroup>
             <FormGroup>
               <Label for="email">Email</Label>
-              <Input type="email" name="email" id="email"/>
+              <Input type="text" name="email" id="email" onChange={this.handleChange}/>
             </FormGroup>
             <br/>
             <FormGroup>
               <Label for="password">Password</Label>
-              <Input type="password" name="password" id="password"/>
+              <Input type="password" name="password" id="password" onChange={this.handleChange}/>
             </FormGroup>
             <FormGroup>
               <Label for="confirmPassword">Confirm Password</Label>
-              <Input type="password" name="confirmPassword" id="confirmPassword"/>
+              <Input type="password" name="confirmPassword" id="confirmPassword" onChange={this.handleChange}/>
             </FormGroup>
             <br/>
           </div>
@@ -59,11 +71,11 @@ class CreateAccountForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {   return {} }
+// const mapStateToProps = (state) => {   return {} }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    postUser: (userDetails) => dispatch(postUser(userDetails))
+    // postUser: (userDetails) => dispatch(postUser(userDetails))
   }
 }
 
