@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import {connect} from 'react-redux';
+import * as actions from '../../store/actions/userActions';
 
 import '../../style/main.css'
 
@@ -18,28 +19,34 @@ class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: '',
-        name: '',
-        password: '',
-        confirmPassword: ''
+      email: '',
+      name: '',
+      password: '',
+      confirmPassword: ''
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this
+      .handleSubmit
+      .bind(this)
+    this.handleChange = this
+      .handleChange
+      .bind(this)
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    //dispatch post user
+    this
+      .props
+      .addNewUser(this.state)
   }
 
-  handleChange(e) {
-    console.log(this.state.name)
+  handleChange(event) {
     this.setState({
-      [e.target.name]: e.target.value
-    })
+      [event.target.name]: event.target.value
+    });
   }
 
   render() {
+    console.log("rerender")
     return (
       <div>
         <Form style={formStyle} onSubmit={this.handleSubmit}>
@@ -56,11 +63,19 @@ class CreateAccountForm extends Component {
             <br/>
             <FormGroup>
               <Label for="password">Password</Label>
-              <Input type="password" name="password" id="password" onChange={this.handleChange}/>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                onChange={this.handleChange}/>
             </FormGroup>
             <FormGroup>
               <Label for="confirmPassword">Confirm Password</Label>
-              <Input type="password" name="confirmPassword" id="confirmPassword" onChange={this.handleChange}/>
+              <Input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                onChange={this.handleChange}/>
             </FormGroup>
             <br/>
           </div>
@@ -71,12 +86,14 @@ class CreateAccountForm extends Component {
   }
 }
 
-// const mapStateToProps = (state) => {   return {} }
+const mapStateToProps = (state) => {
+  return {userDetails: state.users.userDetails};
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // postUser: (userDetails) => dispatch(postUser(userDetails))
+    addNewUser: (userDetails) => dispatch(actions.addNewUser(userDetails))
   }
 }
 
-export default connect(null, mapDispatchToProps)(CreateAccountForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountForm)

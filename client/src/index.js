@@ -10,6 +10,7 @@ import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import logger from 'redux-logger'
+// import expressValidator from 'express-validator'
 import rootReducer from './store/reducers/rootReducer';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger)));
