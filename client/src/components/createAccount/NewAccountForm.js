@@ -19,10 +19,10 @@ class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      name: '',
-      password: '',
-      confirmPassword: ''
+        email: '',
+        name: '',
+        password: '',
+        confirmPassword: ''
     }
     this.handleSubmit = this
       .handleSubmit
@@ -32,8 +32,11 @@ class CreateAccountForm extends Component {
       .bind(this)
   }
 
+  // validateForm() 
+
   handleSubmit(e) {
     e.preventDefault();
+
     this
       .props
       .addNewUser(this.state)
@@ -45,8 +48,9 @@ class CreateAccountForm extends Component {
     });
   }
 
+
+
   render() {
-    console.log("rerender")
     return (
       <div>
         <Form style={formStyle} onSubmit={this.handleSubmit}>

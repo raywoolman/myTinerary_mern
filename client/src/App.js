@@ -24,7 +24,7 @@ class App extends Component {
               <Route path='/cities' className="viewport" component={Cities}/>
               <Route path='/itineraries/:cityId' component={Itineraries}/>
               <Route path='/login' component={Login}/>
-              <Route path='/createaccount' component={CreateAccount}/>
+              <Route path='/signup' component={CreateAccount}/>
             </div>
           </div>
         </BrowserRouter>

@@ -1,8 +1,10 @@
 import * as actionType from '../actions/actionTypes'
 
 const initState = {
+  isError: false,
   error: {},
   isLoading: true,
+  isRegistered: false,
   userDetails: {}
 }
 
@@ -17,14 +19,15 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         userDetails: action.userDetails,
-        isLoading: false
+        isLoading: false,
+        isRegistered: true
       }
     case actionType.CREATE_NEW_USER_FAIL:
       return {
         ...state,
         error: action.error,
-        isLoading: false
-
+        isLoading: false,
+        isError: true
       }
       default: 
       return state;
