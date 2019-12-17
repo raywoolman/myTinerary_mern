@@ -26,8 +26,8 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         error: action.error,
-        isLoading: false,
-        isError: true
+        isError: true,
+        isLoading: false
       }
       default: 
       return state;

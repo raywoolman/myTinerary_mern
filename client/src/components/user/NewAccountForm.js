@@ -32,8 +32,6 @@ class CreateAccountForm extends Component {
       .bind(this)
   }
 
-  // validateForm() 
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -91,13 +89,19 @@ class CreateAccountForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {userDetails: state.users.userDetails};
+  return {
+    userDetails: state.users.userDetails,
+    isRegistered: state.users.isRegistered,
+    isLoading: state.users.isLoading,
+    isError: state.users.isError,
+    error: state.users.error
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addNewUser: (userDetails) => dispatch(actions.addNewUser(userDetails))
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountForm)
