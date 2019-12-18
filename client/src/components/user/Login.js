@@ -19,6 +19,8 @@ class Login extends Component {
     this.onPasswordChange = this
       .onPasswordChange
       .bind(this)
+
+    this.onSignIn = this.onSignIn.bind(this)
   }
 
   onEmailChange(e) {
@@ -29,5 +31,15 @@ class Login extends Component {
     this.setState({signInPassword: e.target.value})
   }
 
+  onSignIn() {
+    const { signInEmail, signInPassword } = this.state;
+    this.setState({
+      isLoading: true
+    })
+  }
+
+  render() {
+    <button onClick={this.onSignIn}></button>
+  }
   
 }
