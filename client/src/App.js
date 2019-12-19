@@ -6,8 +6,8 @@ import './style/main.css';
 import Home from './components/Home'
 import Cities from './components/Cities'
 import Itineraries from './components/Itineraries'
-import CreateAccount from './components/createAccount/CreateAccount'
-import Login from './components/Login'
+import CreateAccount from './components/user/CreateAccount'
+import Login from './components/user/Login'
 import NavBar from './components/layout/NavBar'
 
 class App extends Component {
@@ -23,7 +23,7 @@ class App extends Component {
               <Route exact path='/' component={Home}/>
               <Route path='/cities' className="viewport" component={Cities}/>
               <Route path='/itineraries/:cityId' component={Itineraries}/>
-              <Route path='/login' component={Login}/>
+              {/* <Route path='/login' component={Login}/> */}
               <Route path='/signup' component={CreateAccount}/>
             </div>
           </div>

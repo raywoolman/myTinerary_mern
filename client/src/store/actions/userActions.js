@@ -21,6 +21,8 @@ export function addNewUser(userDetails) {
       dispatch(newUserSuccess(response.data))
     } catch (error) {
       if (error.response && error.response.data) {
+        console.log("error.response: ", error.response)
+        console.log("error.response.data: ", error.response.data)
         if (error.response.data.errors) {
           dispatch(newUserFail(error.response.data.errors))
         } else {
