@@ -17,13 +17,15 @@ class Cities extends Component {
     }
 
     handleChange = (e) => {
-
+      this.setState({
+        [e.target.name]: e.target.value
+      })
     }
   
     render() {
       return (
           <React.Fragment>
-          <input onChange={this.handleChange} type="text"/>
+          <input name="inputField" onChange={this.handleChange} type="text"/>
           <button onClick={this.handleClick}></button>
           </React.Fragment>
       )

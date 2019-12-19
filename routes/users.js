@@ -27,6 +27,9 @@ let validation = [
     .withMessage('Password is required')
 ];
 
+//.done()
+
+
 router.post('/add', validation, async(req, res) => {
   const errors = validationResult(req);
 
@@ -60,6 +63,15 @@ router.post('/add', validation, async(req, res) => {
       .status(500)
       .send("Something went wrong");
   }
+}).post('/addFavItinerary', (req, res, next) => {
+  const {email} = req.body;
+
+  User.findOneAndUpdate({
+    _id: userId
+  }, {
+      favourites: [1, 2]
+  })
+
 }).post('/signin', (req, res, next) => {
   const {body} = req;
   const {password} = body;
