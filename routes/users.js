@@ -3,8 +3,11 @@ const router = express.Router()
 const User = require('../models/userModel')
 const UserSession = require('../models/userSessionModel')
 const {check, validationResult} = require('express-validator/check')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const keys = require('../keys')
 
-let validation = [
+let signUpValidation = [
   check('name')
     .not()
     .isEmpty()
@@ -26,11 +29,12 @@ let validation = [
     .isEmpty()
     .withMessage('Password is required')
 ];
+let serverError = {
+  success: false,
+  message: 'Error: something went wrong'
+}
 
-//.done()
-
-
-router.post('/add', validation, async(req, res) => {
+router.post('/add', signUpValidation, async(req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -52,75 +56,81 @@ router.post('/add', validation, async(req, res) => {
     if (user) 
       return res.status(400).send("User already registered")
 
-    user = new User({name, email, password});
-    // const salt = await bcrypt.genSalt(10); user.password = await
-    // bcrypt.hash(user.password, salt);
+    user = new User({name, email});
+    user.password = user.generateHash(password)
     user = await user.save();
     res.send(user);
   } catch (err) {
     console.log(err);
     res
       .status(500)
-      .send("Something went wrong");
-  }
-}).post('/addFavItinerary', (req, res, next) => {
-  const {email} = req.body;
-
-  User.findOneAndUpdate({
-    _id: userId
-  }, {
-      favourites: [1, 2]
-  })
-
-}).post('/signin', (req, res, next) => {
-  const {body} = req;
-  const {password} = body;
-  let {email} = body;
-
-  if (!email) {
-    return res.send({success: false, message: 'Error: Email cannot be blank'});
-  }
-  if (!password) {
-    return res.send({success: false, message: 'Error: Password cannot be blank'})
+      .send({error: err});
   }
 
-  //refactor
-  email = email.toLowerCase();
-  email = email.trim();
-
-  //refactor
-  User.find({
-    email: email
-  }, (err, users) => {
-    if (err) {
-      console.log('Error 2: ', err);
-      return res.send(serverError)
-    }
-    if (users.length != 1) {
-      return res.send(serverError)
-    }
-
-    const user = users[0];
-    if (!users.validPassword(password)) {
-      return res.send(serverError)
-    }
-    const userSession = new UserSession();
-    userSession.userId = user._id;
-    userSession.save((err, doc) => {
-      if (err) {
-        console.log(err);
-        return res.send(serverError)
+  //needs body of {userId: _id, itineraryId: _id}
+}).put('/addfavitinerary', async(req, res) => {
+  const {userId, itineraryId} = req.body
+  try {
+    let doc = await User.findByIdAndUpdate(userId, {
+      $addToSet: {
+        favourites: itineraryId
       }
-      return res.send({success: true, message: 'Valid signin', token: doc._id})
     })
-  })
-}).post('/logout', (req, res, next) => {
+    res.send(doc)
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({error: err});
+  }
+
+}).post('/login', (req, res) => {
+  const {password, email} = req.body;
+
+  if (!email || !password) {
+    return res.send({success: false, message: 'Both fields required'});
+  }
+  email
+    .toLowerCase()
+    .trim()
+
+  User
+    .findOne({email})
+    .then(user => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({email: 'Email not found'});
+      }
+      bcrypt
+        .compare(password, user.password)
+        .then(isMatch => {
+          if (isMatch) {
+            const payload = {
+              id,
+              name
+            } = user;
+            jwt.sign(payload, keys.secretOrKey, {
+              expiresIn: 31556926
+            }, (err, token) => {
+              res,
+              json({
+                success: true,
+                token: "Bearer" + token
+              })
+            });
+          } else {
+            return res
+              .status(400)
+              .json({password: "Incorrect password"})
+          }
+        })
+    })
+}).post('/logout', (req, res) => {
   //get token
   const {query} = req;
   const {token} = query;
-
   //verify token is unique and exists
-
   UserSession.findByIdAndUpdate({
     _id: token,
     isDeleted: false
@@ -136,7 +146,7 @@ router.post('/add', validation, async(req, res) => {
 
     return res.send({success: true, message: 'success'})
   })
-}).post('/verify', (req, res, next) => {
+}).post('/verify', (req, res) => {
   //get token
   const {query} = req;
   const {token} = query;
@@ -159,10 +169,5 @@ router.post('/add', validation, async(req, res) => {
     }
   })
 })
-
-let serverError = {
-  success: false,
-  message: 'Error: something went wrong'
-}
 
 module.exports = router

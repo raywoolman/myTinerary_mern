@@ -19,7 +19,7 @@ app.use(cors());
 app.use('/cities', cities)
 app.use('/itineraries', itineraries)
 app.use('/user', users)
-app.use('/login', users)
+// app.use('/login', users)
 
 app.listen(port, () => {
   console.log("Server is running on port " + port);

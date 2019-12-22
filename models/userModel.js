@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const User = new mongoose.Schema({
   email: {
@@ -24,7 +24,7 @@ const User = new mongoose.Schema({
 })
 
 User.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 User.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
