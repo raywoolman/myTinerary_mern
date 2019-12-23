@@ -6,6 +6,8 @@ const {check, validationResult} = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const keys = require('../keys')
+//pass in auth as second param to make route private
+const auth = require('../routes/middleware/auth')
 
 let signUpValidation = [
   check('name')
@@ -46,7 +48,7 @@ router.post('/add', signUpValidation, async(req, res) => {
       });
     return res
       .status(422)
-      .json({errors: err});
+      .json({error: err});
   }
 
   const {name, email, password} = req.body;
@@ -54,21 +56,36 @@ router.post('/add', signUpValidation, async(req, res) => {
   try {
     let user = await User.findOne({email});
     if (user) 
-      return res.status(400).send("User already registered")
+      return res.status(400).josn({error: "User already registered"})
 
     user = new User({name, email});
     user.password = user.generateHash(password)
-    user = await user.save();
-    res.send(user);
+    user = await user
+      .save()
+      .then(jwt.sign({
+        id: user.id
+      }, keys.jwtSecret, {
+        expiresIn: 31556926
+      }, (err, token) => {
+        if (err) 
+          throw err;
+        res.json({
+          token,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+          }
+        });
+      }))
   } catch (err) {
-    console.log(err);
     res
       .status(500)
       .send({error: err});
   }
 
   //needs body of {userId: _id, itineraryId: _id}
-}).put('/addfavitinerary', async(req, res) => {
+}).put('/addfavitinerary', auth, async(req, res) => {
   const {userId, itineraryId} = req.body
   try {
     let doc = await User.findByIdAndUpdate(userId, {
@@ -88,7 +105,9 @@ router.post('/add', signUpValidation, async(req, res) => {
   const {password, email} = req.body;
 
   if (!email || !password) {
-    return res.send({success: false, message: 'Both fields required'});
+    return res
+      .status(400)
+      .json({success: false, message: 'Both fields required'});
   }
   email
     .toLowerCase()
@@ -99,24 +118,25 @@ router.post('/add', signUpValidation, async(req, res) => {
     .then(user => {
       if (!user) {
         return res
-          .status(404)
-          .json({email: 'Email not found'});
+          .status(400)
+          .json({email: 'User not found'});
       }
       bcrypt
         .compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            const payload = {
-              id,
-              name
-            } = user;
-            jwt.sign(payload, keys.secretOrKey, {
+            jwt.sign({
+              id: user.id
+            }, keys.jwtSecret, {
               expiresIn: 31556926
             }, (err, token) => {
-              res,
-              json({
-                success: true,
-                token: "Bearer" + token
+              res.json({
+                token,
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email
+                }
               })
             });
           } else {
@@ -146,28 +166,10 @@ router.post('/add', signUpValidation, async(req, res) => {
 
     return res.send({success: true, message: 'success'})
   })
-}).post('/verify', (req, res) => {
-  //get token
-  const {query} = req;
-  const {token} = query;
-
-  //verify token is unique and exists
-
-  UserSession.find({
-    _Id: token,
-    isDeleted: false
-  }, (err, sessions) => {
-    if (err) {
-      console.log(err);
-      return res.send(serverError)
-    }
-    if (sessions.length != 1) {
-      return res.send(serverError)
-    } else {
-      //success
-      return res.send({success: true, message: 'success!'})
-    }
-  })
+}).get('/verify', auth, (req, res) => {
+  User.findById(req.user.id)
+  .select('-password')
+  .then(user => res.json(user))
 })
 
 module.exports = router
