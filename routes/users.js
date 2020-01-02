@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const keys = require('../keys')
 //pass in auth as second param to make route private
-const auth = require('../routes/middleware/auth')
+const auth = require('../middleware/auth')
 
 let signUpValidation = [
   check('name')
@@ -55,8 +55,8 @@ router.post('/add', signUpValidation, async(req, res) => {
 
   try {
     let user = await User.findOne({email});
-    if (user) 
-      return res.status(400).josn({error: "User already registered"})
+    if (user)
+      return res.status(400).json({error: "User already registered"})
 
     user = new User({name, email});
     user.password = user.generateHash(password)
@@ -64,7 +64,11 @@ router.post('/add', signUpValidation, async(req, res) => {
       .save()
       .then(jwt.sign({
         id: user.id
-      }, keys.jwtSecret, {
+      }, keys.jwtSecret, 
+      //just wrapped options and callback function in array. Still hangs
+      //https://www.npmjs.com/package/jsonwebtoken
+      //https://jwt.io/introduction/
+      {
         expiresIn: 31556926
       }, (err, token) => {
         if (err) 
@@ -125,12 +129,13 @@ router.post('/add', signUpValidation, async(req, res) => {
         .compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            jwt.sign({
-              id: user.id
-            }, keys.jwtSecret, {
-              expiresIn: 31556926
-            }, (err, token) => {
-              res.json({
+            jwt.sign(
+              { id: user.id }, 
+              keys.jwtSecret, 
+              { expiresIn: 31556926 }, 
+              (err, token) => { 
+                if(err) throw err;
+                res.json({
                 token,
                 user: {
                   id: user.id,

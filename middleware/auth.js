@@ -1,4 +1,4 @@
-const keys = require('../../keys')
+const keys = require('../keys')
 const jwt = require('jsonwebtoken')
 
 function auth(req, res, next) {
@@ -14,7 +14,7 @@ function auth(req, res, next) {
 
     //add user from payload
     req.user = decoded;
-    next()
+    next();
   } catch (err) {
     res
       .status(400)
