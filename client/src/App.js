@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route } from "react-router-dom";
 import './style/main.css';
 
+import { loadUser } from "./store/actions/authActions";
+
+
 //routes:
 import Home from './components/Home'
 import Cities from './components/Cities'

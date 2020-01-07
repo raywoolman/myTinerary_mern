@@ -1,15 +1,15 @@
 import axios from 'axios'
-import * as actionType from '../actions/actionTypes'
+import * as actions from './actionTypes'
 
 export function newUserRequest() {
-  return {type: actionType.CREATE_NEW_USER_REQUEST}
+  return {type: actions.CREATE_NEW_USER_REQUEST}
 }
 
 export function newUserSuccess(userDetails) {
-  return {type: actionType.CREATE_NEW_USER_SUCCESS, userDetails}
+  return {type: actions.CREATE_NEW_USER_SUCCESS, userDetails}
 }
 export function newUserFail(error) {
-  return {type: actionType.CREATE_NEW_USER_FAIL, error}
+  return {type: actions.CREATE_NEW_USER_FAIL, error}
 }
 
 export function addNewUser(userDetails) {
