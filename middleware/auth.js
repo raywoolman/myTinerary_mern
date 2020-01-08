@@ -6,7 +6,7 @@ function auth(req, res, next) {
 
   //check for token
   if (!token) 
-    res.status(401).json({error: 'Unauthorised'})
+    return res.status(401).json({error: 'Unauthorised'})
 
   try {
     //verify token

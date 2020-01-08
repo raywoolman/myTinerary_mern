@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from '../../store/actions/userActions';
 
 import '../../style/main.css'
@@ -22,8 +23,10 @@ class CreateAccountForm extends Component {
         email: '',
         name: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        message: null
     }
+
     this.handleSubmit = this
       .handleSubmit
       .bind(this)
@@ -32,12 +35,14 @@ class CreateAccountForm extends Component {
       .bind(this)
   }
 
+  static PropTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-
-    this
-      .props
-      .addNewUser(this.state)
+    this.props.addNewUser(this.state)
   }
 
   handleChange(event) {
@@ -45,8 +50,6 @@ class CreateAccountForm extends Component {
       [event.target.name]: event.target.value
     });
   }
-
-
 
   render() {
     return (
@@ -94,7 +97,9 @@ const mapStateToProps = (state) => {
     isRegistered: state.users.isRegistered,
     isLoading: state.users.isLoading,
     isError: state.users.isError,
-    error: state.users.error
+    error: state.users.error,
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error
   };
 }
 
