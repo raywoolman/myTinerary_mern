@@ -1,10 +1,9 @@
 import axios from "axios";
 import * as actions from "../actions/actionTypes";
-import {returnErrors} from './errorActions'
+import { returnErrors } from "./errorActions";
 
 //check token & load user
 export const loadUser = () => (dispatch, getState) => {
-    
   // User loading
   dispatch({ type: actions.USER_LOADING });
 
@@ -12,9 +11,31 @@ export const loadUser = () => (dispatch, getState) => {
     .get("user/verify", tokenConfig(getState))
     .then(res => dispatch({ type: actions.USER_LOADED, payload: res.data }))
     .catch(err => {
-        dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: actions.AUTH_ERROR });
     });
+};
+
+//Register user
+export const register = ({ name, email, password }) => dispatch => {
+  const config = {
+    headers: {
+      "content-type": "application/json"
+    }
+  };
+  const body = JSON.stringify({ name, email, password });
+
+  axios.post('/user/add', body, config)
+    .then(res => dispatch({
+      type: actions.REGISTER_SUCCESS,
+      payload: res.data
+    }))
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
+      dispatch({
+        type: actions.REGISTER_FAIL
+      })
+    })
 };
 
 //setup config/headers and token
@@ -35,4 +56,4 @@ export const tokenConfig = getState => {
     config.headers["x-auth-token"] = token;
   }
   return config;
-}
+};
