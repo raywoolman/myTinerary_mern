@@ -7,7 +7,6 @@ function auth(req, res, next) {
   //check for token
   if (!token) 
     return res.status(401).json({error: 'Unauthorised'})
-
   try {
     //verify token
     const decoded = jwt.verify(token, keys.jwtSecret);

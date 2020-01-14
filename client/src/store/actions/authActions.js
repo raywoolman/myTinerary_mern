@@ -18,11 +18,15 @@ export const loadUser = () => (dispatch, getState) => {
 
 //Register user
 export const register = ({ name, email, password }) => dispatch => {
+  
+  //headers
   const config = {
     headers: {
       "content-type": "application/json"
     }
   };
+
+  //req body
   const body = JSON.stringify({ name, email, password });
 
   axios.post('/user/add', body, config)
@@ -31,6 +35,7 @@ export const register = ({ name, email, password }) => dispatch => {
       payload: res.data
     }))
     .catch(err => {
+      console.log(err);
       dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
       dispatch({
         type: actions.REGISTER_FAIL
@@ -39,7 +44,6 @@ export const register = ({ name, email, password }) => dispatch => {
 };
 
 //setup config/headers and token
-
 export const tokenConfig = getState => {
   //Get token from local storage
   const token = getState().auth.token;

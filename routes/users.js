@@ -102,7 +102,7 @@ router
       res.send(doc);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ err: err });
     }
   })
   .post("/login", (req, res) => {

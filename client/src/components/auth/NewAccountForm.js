@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, Alert } from "reactstrap";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/userActions";
+// import * as actions from "../../store/actions/userActions";
+import {register} from "../../store/actions/authActions";
+import PropTypes from "prop-types";
 
 import "../../style/main.css";
 
@@ -22,20 +24,21 @@ class CreateAccountForm extends Component {
       name: "",
       password: "",
       confirmPassword: "",
-      message: null
+      msg: null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  // static PropTypes = {
-  //   isAuthenticated: PropTypes.bool,
-  //   error: PropTypes.object.isRequired
-  // }
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired
+  };
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
+    //if current state.error is different to old state.error (there's been a change)
     if (error !== prevProps.error) {
       //check for register error
       if (error.id === "REGISTER_FAIL") {
@@ -48,7 +51,12 @@ class CreateAccountForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.addNewUser(this.state);
+
+    const { name, email, password, confirmPassword } = this.state;
+
+    const newUser = { name, email, password, confirmPassword }
+
+    this.props.register(newUser)
   }
 
   handleChange(event) {
@@ -60,6 +68,7 @@ class CreateAccountForm extends Component {
   render() {
     return (
       <div>
+        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
         <Form style={formStyle} onSubmit={this.handleSubmit}>
           <div>
             <FormGroup>
@@ -123,7 +132,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addNewUser: userDetails => dispatch(actions.addNewUser(userDetails))
+    // addNewUser: userDetails => dispatch(actions.addNewUser(userDetails)),
+    register: newUser => dispatch(register(newUser))
   };
 };
 
