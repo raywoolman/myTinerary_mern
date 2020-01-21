@@ -24,6 +24,6 @@ app.listen(port, () => {
   console.log("Server is running on port " + port);
 });
 
-mongoose.connect(db,{ useNewUrlParser: true, dbName: "mytinerary" })
+mongoose.connect(db,{ useUnifiedTopology: true, useNewUrlParser: true, dbName: "mytinerary" })
     .then(() => console.log('Connection to Mongo DB established'))
     .catch(err => console.log(err));

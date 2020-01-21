@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Alert } from "reactstrap";
 import { connect } from "react-redux";
 // import * as actions from "../../store/actions/userActions";
 import {register} from "../../store/actions/authActions";
+import { clearErrors } from '../../store/actions/errorActions';
 import PropTypes from "prop-types";
 
 import "../../style/main.css";
@@ -34,6 +35,7 @@ class CreateAccountForm extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired
+    // clearErrors: PropTypes.func.isRequired
   };
 
   componentDidUpdate(prevProps) {
@@ -68,7 +70,7 @@ class CreateAccountForm extends Component {
   render() {
     return (
       <div>
-        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+        {this.props.error.isError ? <Alert color="danger">{this.props.error.msg}</Alert> : null}
         <Form style={formStyle} onSubmit={this.handleSubmit}>
           <div>
             <FormGroup>
