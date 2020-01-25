@@ -5,6 +5,8 @@ import NewAccountForm from './NewAccountForm'
 
 import '../../style/main.css'
 
+//funtional
+
 class CreateAccount extends Component {
 
   render() {

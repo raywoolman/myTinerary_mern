@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Alert } from "reactstrap";
 import { connect } from "react-redux";
 // import * as actions from "../../store/actions/userActions";
 import {register} from "../../store/actions/authActions";
-import { clearErrors } from '../../store/actions/errorActions';
+// import { clearErrors } from '../../store/actions/errorActions';
 import PropTypes from "prop-types";
 
 import "../../style/main.css";
