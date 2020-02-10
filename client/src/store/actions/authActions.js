@@ -6,7 +6,6 @@ import { returnErrors } from "./errorActions";
 export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: actions.USER_LOADING });
-
   axios
     .get("user/verify", tokenConfig(getState))
     .then(res => dispatch({ type: actions.USER_LOADED, payload: res.data }))
@@ -17,8 +16,12 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 //Register user
-export const register = ({ name, email, password, confirmPassword }) => dispatch => {
-  
+export const register = ({
+  name,
+  email,
+  password,
+  confirmPassword
+}) => dispatch => {
   //headers
   const config = {
     headers: {
@@ -29,23 +32,32 @@ export const register = ({ name, email, password, confirmPassword }) => dispatch
   //req body
   const body = JSON.stringify({ name, email, password, confirmPassword });
 
-  axios.post('/user/add', body, config)
-    .then(res => dispatch({
-      type: actions.REGISTER_SUCCESS,
-      payload: res.data
-    }))
+  axios
+    .post("/user/add", body, config)
+    .then(res =>
+      dispatch({
+        type: actions.REGISTER_SUCCESS,
+        payload: res.data
+      })
+    )
     .catch(err => {
-      console.log(err);
-      dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
+      if (err.response.data.id === "FIELD_VALIDATION_ERRORS") {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, "FIELD_VALIDATION_ERRORS")
+        );
+      } else {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+        );
+      }
       dispatch({
         type: actions.REGISTER_FAIL
-      })
-    })
+      });
+    });
 };
 
 //Login user
 export const login = ({ email, password }) => dispatch => {
-  
   //headers
   const config = {
     headers: {
@@ -56,18 +68,23 @@ export const login = ({ email, password }) => dispatch => {
   //req body
   const body = JSON.stringify({ email, password });
 
-  axios.post('/user/login', body, config)
-    .then(res => dispatch({
-      type: actions.LOGIN_SUCCESS,
-      payload: res.data
-    }))
+  axios
+    .post("/user/login", body, config)
+    .then(res =>
+      dispatch({
+        type: actions.LOGIN_SUCCESS,
+        payload: res.data
+      })
+    )
     .catch(err => {
       console.log(err);
-      dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+      );
       dispatch({
         type: actions.LOGIN_FAIL
-      })
-    })
+      });
+    });
 };
 
 // Logout user

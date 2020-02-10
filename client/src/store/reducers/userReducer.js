@@ -2,7 +2,7 @@ import * as actionType from '../actions/actionTypes'
 
 const initState = {
   isError: false,
-  error: {},
+  error: [],
   isLoading: true,
   isRegistered: false,
   userDetails: {}

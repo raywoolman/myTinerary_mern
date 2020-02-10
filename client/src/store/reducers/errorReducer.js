@@ -1,6 +1,7 @@
 import * as actions from '../actions/actionTypes'
 
 const initState = {
+    validationErrors: [],
     msg: {},
     status: null, 
     id: null
@@ -8,7 +9,7 @@ const initState = {
 
 export default function(state = initState, action) {
     switch(action.type) {
-        case actions.GET_ERRORS: 
+        case actions.GET_ERRORS:
         return{
             msg: action.payload.msg,
             status: action.payload.status,

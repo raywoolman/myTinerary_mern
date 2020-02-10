@@ -12,8 +12,6 @@ class CreateAccount extends Component {
   render() {
     return (
       <div className='viewport'>
-        <p>Join the community</p>
-        <br/>
           <NewAccountForm />
       </div>
     )

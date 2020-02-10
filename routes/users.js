@@ -37,14 +37,8 @@ router.post("/add", signUpValidation, async (req, res) => {
     errors.array().forEach(error => {
       err[error.param] = error.msg;
     });
-    return res.status(422).json({ msg: err });
+    return res.status(422).json({ msg: err, id: 'FIELD_VALIDATION_ERRORS' });
   }
-
-  // if (!errors.isEmpty()) {
-  //   const err = errors.array().map(err => err.msg).join(', ')
-  //   // let errorString = 'Invalid credentials. Please check: '+ errors
-  //   return res.status(422).json({ msg: err });
-  // }
 
   const { name, email, password } = req.body;
 

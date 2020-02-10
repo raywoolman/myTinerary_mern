@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, Alert } from "reactstrap";
 import { connect } from "react-redux";
-// import * as actions from "../../store/actions/userActions";
-import {register} from "../../store/actions/authActions";
+import { register } from "../../store/actions/authActions";
 // import { clearErrors } from '../../store/actions/errorActions';
 import PropTypes from "prop-types";
 
@@ -17,6 +16,7 @@ const buttonStyle = {
   bottom: "0px"
 };
 
+
 class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +25,14 @@ class CreateAccountForm extends Component {
       name: "",
       password: "",
       confirmPassword: "",
-      msg: null
+      msg: null,
+      isValidationError: false,
+      isFieldValidationError: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
   }
 
   static propTypes = {
@@ -44,21 +47,23 @@ class CreateAccountForm extends Component {
     if (error !== prevProps.error) {
       //check for register error
       if (error.id === "REGISTER_FAIL") {
-        this.setState({ msg: error.msg.msg });
+        console.log("TCL: CreateAccountForm -> componentDidUpdate -> error.id === \"REGISTER_FAIL\"", error.id)
+        this.setState({ msg: error.msg.msg, isValidationError: true, isFieldValidationError: false });
+      }
+      else if (error.id === "FIELD_VALIDATION_ERRORS"){
+        console.log("TCL: CreateAccountForm -> componentDidUpdate -> error.id === \"FIELD_VALIDATION_ERRORS\"", error.id)
+        this.setState({ msg: error.msg.msg, isFieldValidationError: true, isValidationError: false, });
       } else {
-        this.setState({ msg: null });
+        this.setState({ msg: null, isValidationError: false, isFieldValidationError: false });
       }
     }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-
     const { name, email, password, confirmPassword } = this.state;
-
-    const newUser = { name, email, password, confirmPassword }
-
-    this.props.register(newUser)
+    const newUser = { name, email, password, confirmPassword };
+    this.props.register(newUser);
   }
 
   handleChange(event) {
@@ -67,14 +72,28 @@ class CreateAccountForm extends Component {
     });
   }
 
+  toggleErrorOrLabel(field) {
+    const msg = this.props.error.msg.msg
+     this.state.isFieldValidationError ? (
+      <Label for="name"> msg.name </Label>
+    ) : (
+      <Label for="name">Name</Label>
+    ) 
+  }
+
   render() {
+    // const msg = this.props.msg.msg;
     return (
       <div>
-        {this.props.error.isError ? <Alert color="danger">{this.props.error.msg}</Alert> : null}
+        
+        {this.state.isValidationError ? (
+          <Alert color="danger">{this.props.error.msg.msg}</Alert>
+        ) : <p>Join the Community</p>}
+
         <Form style={formStyle} onSubmit={this.handleSubmit}>
           <div>
             <FormGroup>
-              <Label for="name">Name</Label>
+              
               <Input
                 type="text"
                 name="name"
@@ -134,12 +153,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // addNewUser: userDetails => dispatch(actions.addNewUser(userDetails)),
     register: newUser => dispatch(register(newUser))
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateAccountForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountForm);
